@@ -4,7 +4,6 @@ const express = require('express');
 var http = require('http');
 const app = express();
 const bodyParser = require('body-parser')
-const { json } = require("body-parser");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -26,10 +25,7 @@ const accesskeyVC='Y4CBPCTEBXA8YCPJLCFG97ZT8';
 //?locations=Cairo&forecastDays=5&iconSet=icons1&contentType=json&key=${access_key}
 
 
-
-
-
- 
+//Api that gets the current weather of the current location
 app.get('/weather', async (req,res) => {
   
 const params = {
@@ -50,6 +46,26 @@ const params = {
  return res.send(data);
 });
 
+
+// api that gets the weather when entering a specific city
+app.get('/weather', async (req,res) => {
+  
+  const params = {
+    key: accesskeyVC,
+    location :req.body,
+    forecastDays : '7',
+    contentType : 'json',
+    aggregateHours:24,
+    iconSet :'icons1'
+  }
+  
+    const { data } =  await axios.get("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${latitude},${longitude}",{params}).catch(error => {
+          console.log(error);
+        });
+    //processWeatherData(data);
+  
+   return res.send(data);
+  });
 
 
   // function processWeatherData(response) {
