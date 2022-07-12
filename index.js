@@ -38,14 +38,6 @@ const params = {
   iconSet :'icons1'
 }
 
-  const { data } =  await axios.get("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${latitude},${longitude}",{params}).catch(error => {
-        console.log(error);
-      });
-  //processWeatherData(data);
-
- return res.send(data);
-});
-
 
 // api that gets the weather when entering a specific city
 app.get('/weather', async (req,res) => {
@@ -62,21 +54,23 @@ app.get('/weather', async (req,res) => {
     const { data } =  await axios.get("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${latitude},${longitude}",{params}).catch(error => {
           console.log(error);
         });
-    //processWeatherData(data);
+    processWeatherData(data);
   
    return res.send(data);
   });
 
 
-  // function processWeatherData(response) {
+  function processWeatherData(response) {
   
-  //   var location=response.resolvedAddress;
-  //   var days=response.days;
-  //   console.log("Location: "+location);
-  //   for (var i=0;i<days.length;i++) {
-  //     console.log(days[i].datetime+": tempmax="+days[i].tempmax+", tempmin="+days[i].tempmin);
-  //   }
-  // }
+    var location=response.resolvedAddress;
+    var days=response.days;
+    console.log("Location: "+location);
+    for (var i=0;i<days.length;i++) {
+      console.log(days[i].datetime+": tempmax="+days[i].tempmax+", tempmin="+days[i].tempmin);
+    }
+  }
+
+  // api that gets the location 
  app.get('/location', async (req,res) => {
    const { data } =  await axios.get('https://geo.ipify.org/api/v2/country,city?apiKey=at_pZdMvxABS0ZniTVyqQ9kVBbLT9QDQ');
    
