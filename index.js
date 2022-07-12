@@ -38,6 +38,13 @@ const params = {
   iconSet :'icons1'
 }
 
+const { data } =  await axios.get("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${latitude},${longitude}",{params}).catch(error => {
+  console.log(error);
+});
+processWeatherData(data);
+
+return res.send(data);
+});
 
 // api that gets the weather when entering a specific city
 app.get('/weather', async (req,res) => {
@@ -99,13 +106,4 @@ app.get('/api', async (req,res) => {
 
 
 
-
-
-
-
-
-
 app.listen(3000);
- 
-
-  
